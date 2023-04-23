@@ -27,6 +27,7 @@ const processData = (data) => {
     console.log(cardKeys)
     fileInput.classList.add("nondisplay")
     fileSubmit.classList.add("nondisplay")
+    window.parent.document.body.style.zoom = .63;
     for (let i = 1; i < rows.length; i++) {
         let card = {}
         let splitRow = rows[i].split("\t")
@@ -151,7 +152,7 @@ let drawResourceCard = (card) => {
     TOTAL HEIGHT: ${totalHeight}
     `)
 
-    if (totalHeight > 145) {
+    if (totalHeight > 160) {
         container.classList.add("compact")
     }
 
