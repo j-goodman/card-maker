@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap');
+
+body {
+    background-color: #17b;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.card-container {
+    align-items: center;
+    background-color: #fff;
+    border: 4px solid #000;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-size: 42px;
+    height: 680px;
+    margin: 16px;
+    padding-top: 20px;
+    width: 500px;
+}
+
+.value-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    width: 96%;
+}
+
+.value-marker {
+    display: flex;
+    flex-direction: row;
+    font-size: 54px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.value-container > .value-marker > img {
+    height: auto;
+    margin-left: 8px;
+    height: 60px;
+    width: 60px;
+}
+
+.card-name {
+    text-align: center;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    width: 90%;
+}
+
+.card-picture {
+    opacity: .5;
+    width: 350px;
+}
+
+.compact > .card-picture {
+    width: 245px;
+}
+
+.extra-compact > .card-picture {
+    width: 200px;
+}
+
+.resource-icon {
+    width: 120px;
+}
+
+.super-compact > .resource-icons > .resource-icon {
+    width: 100px;
+}
+
+.resource-description {
+    font-size: 28px;
+    margin: 32px;
+    margin-top: 0px;
+}
+
+.super-compact > .resource-description {
+    font-size: 24px;
+}
+
+.nondisplay {
+    display: none;
+}
