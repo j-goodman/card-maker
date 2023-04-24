@@ -23,12 +23,13 @@ fileSubmit.onclick = event => {
 const processData = (data) => {
     let rows = data.split("\n")
     let resourceCards = []
-    let cardKeys = rows[0].split("\t")
+    let cardKeys = rows[0].slice(0, -1).split("\t")
     console.log(cardKeys)
     fileInput.classList.add("nondisplay")
     fileSubmit.classList.add("nondisplay")
     window.parent.document.body.style.zoom = .63;
     for (let i = 1; i < rows.length; i++) {
+        rows[i] = rows[i].slice(0, -1)
         let card = {}
         let splitRow = rows[i].split("\t")
         splitRow.forEach((text, index) => {
@@ -41,6 +42,7 @@ const processData = (data) => {
         cardObject.foodValue = Number(card["Food Value"])
         cardObject.treasureValue = Number(card["Treasure Value"])
         cardObject.quantity = Number(card["Quantity"])
+        cardObject.category = card["Category"]
         cardObject.specialRules = Number(card["Special Rules?"]) === "yes"
         cardObject.weapon = Number(card["Weapon?"]) === "yes"
         drawResourceCard(cardObject)
@@ -78,10 +80,27 @@ let sortKeywords = (keywords) => {
 let drawResourceCard = (card) => {
     let container = document.createElement("div")
     container.className = "card-container"
+    
+    let topContainer = document.createElement("div")
+    topContainer.className = "top-container"
+    
+    let categoryContainer = document.createElement("div")
+    categoryContainer.className = "category-container"
 
     let valueContainer = document.createElement("div")
     valueContainer.className = "value-container"
-    container.append(valueContainer)
+
+    topContainer.append(categoryContainer)
+    topContainer.append(valueContainer)
+    container.append(topContainer)
+
+    if (["Weapon", "Skill", "Instant"].includes(card.category)) {
+        let categoryMarker = document.createElement("div")
+        categoryMarker.className = "category-marker"
+        categoryMarker.classList.add(`${card.category.toLowerCase()}-marker`)
+        categoryMarker.innerText = card.category.toUpperCase()
+        categoryContainer.append(categoryMarker)
+    }
 
     if (card.foodValue || card.treasureValue) {
         if (card.foodValue) {
@@ -145,22 +164,22 @@ let drawResourceCard = (card) => {
     description.textContent = card.description
     container.append(description)
 
-    let totalHeight = name.getBoundingClientRect().height + description.getBoundingClientRect().height + valueContainer.getBoundingClientRect().height
+    let totalHeight = name.getBoundingClientRect().height + description.getBoundingClientRect().height + topContainer.getBoundingClientRect().height + icons.getBoundingClientRect().height
 
     console.log(`
     ITEM: ${card.name}
     TOTAL HEIGHT: ${totalHeight}
     `)
 
-    if (totalHeight > 160) {
+    if (totalHeight > 210) {
         container.classList.add("compact")
     }
 
-    if (totalHeight > 236) {
+    if (totalHeight > 286) {
         container.classList.add("extra-compact")
     }
 
-    if (totalHeight > 300) {
+    if (totalHeight > 350) {
         container.classList.add("super-compact")
     }
 }
