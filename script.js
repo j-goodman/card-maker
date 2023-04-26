@@ -179,7 +179,7 @@ let drawResourceCard = (card) => {
         container.classList.add("extra-compact")
     }
 
-    if (totalHeight > 350) {
+    if (totalHeight > 380) {
         container.classList.add("super-compact")
     }
 }
