@@ -6,6 +6,8 @@ const fileInput = document.querySelector("#fileInput")
 const fileSubmit = document.querySelector("#fileSubmit")
 const errorReports = []
 
+let keywordCounter = {}
+
 let resourceCards;
 
 fileSubmit.onclick = event => {
@@ -38,6 +40,13 @@ const processData = (data) => {
         let cardObject = {}
         cardObject.name = card["Name"]
         cardObject.keywords = sortKeywords(card["Keywords"].split(", "))
+        cardObject.keywords.forEach(keyword => {
+            if (keywordCounter[keyword]) {
+                keywordCounter[keyword] += 1
+            } else {
+                keywordCounter[keyword] = 1
+            }
+        })
         cardObject.description = card["Description"]
         cardObject.foodValue = Number(card["Food Value"])
         cardObject.treasureValue = Number(card["Treasure Value"])
@@ -49,6 +58,8 @@ const processData = (data) => {
         resourceCards.push(cardObject)
     }
 
+    console.log("Keyword counter:")
+    console.log(keywordCounter)
     return resourceCards
 }
 
