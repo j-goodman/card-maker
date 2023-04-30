@@ -4,6 +4,7 @@
 
 const fileInput = document.querySelector("#fileInput")
 const fileSubmit = document.querySelector("#fileSubmit")
+const previewContainer = document.querySelector("#previewContainer")
 const errorReports = []
 
 let keywordCounter = {}
@@ -189,7 +190,7 @@ let drawResourceCard = (card) => {
         }
     })
     
-    document.body.append(container)
+    previewContainer.append(container)
     
     let description = document.createElement("div")
     description.className = "resource-description"

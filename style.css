@@ -2,6 +2,9 @@
 
 body {
     background-color: rgb(142, 183, 211);
+}
+
+.card-preview-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
