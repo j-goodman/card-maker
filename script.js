@@ -182,7 +182,7 @@ let drawResourceCard = (card) => {
     TOTAL HEIGHT: ${totalHeight}
     `)
 
-    if (totalHeight > 210) {
+    if (totalHeight > 236) {
         container.classList.add("compact")
     }
 
@@ -190,7 +190,7 @@ let drawResourceCard = (card) => {
         container.classList.add("extra-compact")
     }
 
-    if (totalHeight > 350) {
+    if (totalHeight > 380) {
         container.classList.add("super-compact")
     }
 }
