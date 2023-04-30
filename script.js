@@ -88,6 +88,32 @@ let sortKeywords = (keywords) => {
     return sorted
 }
 
+let makeImage = (src, container, name, description, topContainer, icons) => {
+    let picture = document.createElement("img")
+    picture.src = src
+    picture.onload = () => {
+        let totalHeight = name.getBoundingClientRect().height + description.getBoundingClientRect().height + topContainer.getBoundingClientRect().height + icons.getBoundingClientRect().height
+
+        console.log(`
+        ITEM: ${name.innerText}
+        TOTAL HEIGHT: ${totalHeight}
+        `)
+    
+        if (totalHeight > 236) {
+            container.classList.add("compact")
+        }
+    
+        if (totalHeight > 286) {
+            container.classList.add("extra-compact")
+        }
+    
+        if (totalHeight > 380) {
+            container.classList.add("super-compact")
+        }
+    }
+    return picture
+}
+
 let drawResourceCard = (card) => {
     let container = document.createElement("div")
     container.className = "card-container"
@@ -143,17 +169,11 @@ let drawResourceCard = (card) => {
             valueContainer.append(treasureValue)
         }
     }
-
-    let picture = document.createElement("img")
-    picture.className = "card-picture"
-    picture.src = "resource-card-pictures/crate.png"
-    container.append(picture)
     
     let name = document.createElement("div")
     name.className = "card-name"
     name.textContent = card.name
-    container.append(name)
-
+    
     let icons = document.createElement("div")
     icons.className = "resource-icons"
     card.keywords.forEach(keyword => {
@@ -166,33 +186,19 @@ let drawResourceCard = (card) => {
             icons.append(icon)
         }
     })
-    container.append(icons)
     
     document.body.append(container)
     
     let description = document.createElement("div")
     description.className = "resource-description"
     description.textContent = card.description
+    
+    let picture = makeImage("resource-card-pictures/crate.png", container, name, description, topContainer, icons)
+    picture.className = "card-picture"
+    container.append(picture)
+    container.append(name)
+    container.append(icons)
     container.append(description)
-
-    let totalHeight = name.getBoundingClientRect().height + description.getBoundingClientRect().height + topContainer.getBoundingClientRect().height + icons.getBoundingClientRect().height
-
-    console.log(`
-    ITEM: ${card.name}
-    TOTAL HEIGHT: ${totalHeight}
-    `)
-
-    if (totalHeight > 236) {
-        container.classList.add("compact")
-    }
-
-    if (totalHeight > 286) {
-        container.classList.add("extra-compact")
-    }
-
-    if (totalHeight > 380) {
-        container.classList.add("super-compact")
-    }
 }
 
 console.log("Errors:")
