@@ -109,7 +109,7 @@ let makeImage = (src, container, name, description, topContainer, icons) => {
             container.classList.add("extra-compact")
         }
     
-        if (relativeHeight > .675) {
+        if (relativeHeight > .64) {
             container.classList.add("super-compact")
         }
     }
