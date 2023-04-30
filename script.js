@@ -93,21 +93,23 @@ let makeImage = (src, container, name, description, topContainer, icons) => {
     picture.src = src
     picture.onload = () => {
         let totalHeight = name.getBoundingClientRect().height + description.getBoundingClientRect().height + topContainer.getBoundingClientRect().height + icons.getBoundingClientRect().height
+        let cardHeight = container.getBoundingClientRect().height
+        let relativeHeight = totalHeight / cardHeight
 
         console.log(`
         ITEM: ${name.innerText}
-        TOTAL HEIGHT: ${totalHeight}
+        RELATIVE HEIGHT: ${totalHeight / cardHeight}/1
         `)
     
-        if (totalHeight > 236) {
+        if (relativeHeight > .4) {
             container.classList.add("compact")
         }
     
-        if (totalHeight > 286) {
+        if (relativeHeight > .56) {
             container.classList.add("extra-compact")
         }
     
-        if (totalHeight > 380) {
+        if (relativeHeight > .675) {
             container.classList.add("super-compact")
         }
     }
