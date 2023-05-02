@@ -139,6 +139,18 @@ let drawResourceCard = (card) => {
         categoryMarker.innerText = card.category.toUpperCase()
         categoryContainer.append(categoryMarker)
     }
+    
+    if (card.keywords.includes("fire") || card.keywords.includes("bone")) {
+        container.classList.add("b-card")
+    }
+    
+    if (card.keywords.includes("medicine") || card.keywords.includes("repair") || card.keywords.includes("mending")) {
+        container.classList.add("c-card")
+    }
+    
+    if (card.keywords.includes("magic") && (!card.keywords.includes("fire"))) {
+        container.classList.add("d-card")
+    }
 
     if (card.foodValue || card.treasureValue) {
         if (card.foodValue) {
@@ -204,6 +216,7 @@ let drawResourceCard = (card) => {
 
 let drawCardsToPaper = () => {
     previewPrompt.classList.add("nondisplay")
+    document.body.style.backgroundColor = "#000"
     let cards = previewContainer.childNodes
     let pages = []
     for (let i = 0; i - 1 <= cards.length / 4; i++) {
@@ -239,8 +252,8 @@ let drawCardsToPaper = () => {
                 let ctx = currentPage.getContext("2d", { willReadFrequently: true });
                 ctx.drawImage(canvas, x + 50, y + 50)
             });
-        }, index * (index < 10 ? 3000 : 750))
-        console.log(`Timeout set for ${(index < 10 ? 3000 : 750)}`)
+        }, index * (index > 50 ? 1000 * 7000))
+        console.log(`Timeout set for ` + index * (index > 50 ? 1000 * 7000))
     })
 
     let reportPage = pages[0]
