@@ -1,14 +1,11 @@
-// html2canvas(document.querySelector("#capture")).then(canvas => {
-//     document.body.append(canvas)
-// });
-
 const fileInput = document.querySelector("#fileInput")
 const fileSubmit = document.querySelector("#fileSubmit")
+const previewPrompt = document.querySelector("#previewPrompt")
 const previewContainer = document.querySelector("#previewContainer")
 const errorReports = []
+const paperCanvas = document.querySelector("#paperCanvas")
 
 let keywordCounter = {}
-
 let resourceCards;
 
 fileSubmit.onclick = event => {
@@ -27,9 +24,10 @@ const processData = (data) => {
     let rows = data.split("\n")
     let resourceCards = []
     let cardKeys = rows[0].slice(0, -1).split("\t")
-    console.log(cardKeys)
+    // console.log(cardKeys)
     fileInput.classList.add("nondisplay")
     fileSubmit.classList.add("nondisplay")
+    previewPrompt.classList.remove("nondisplay")
     window.parent.document.body.style.zoom = .63;
     for (let i = 1; i < rows.length; i++) {
         rows[i] = rows[i].slice(0, -1)
@@ -59,8 +57,8 @@ const processData = (data) => {
         resourceCards.push(cardObject)
     }
 
-    console.log("Keyword counter:")
-    console.log(keywordCounter)
+    // console.log("Keyword counter:")
+    // console.log(keywordCounter)
     return resourceCards
 }
 
@@ -97,10 +95,10 @@ let makeImage = (src, container, name, description, topContainer, icons) => {
         let cardHeight = container.getBoundingClientRect().height
         let relativeHeight = totalHeight / cardHeight
 
-        console.log(`
-        ITEM: ${name.innerText}
-        RELATIVE HEIGHT: ${totalHeight / cardHeight}/1
-        `)
+        // console.log(`
+        // ITEM: ${name.innerText}
+        // RELATIVE HEIGHT: ${totalHeight / cardHeight}/1
+        // `)
     
         if (relativeHeight > .4) {
             container.classList.add("compact")
@@ -204,5 +202,89 @@ let drawResourceCard = (card) => {
     container.append(description)
 }
 
-console.log("Errors:")
-console.log(errorReports)
+let drawCardsToPaper = () => {
+    previewPrompt.classList.add("nondisplay")
+    let cards = previewContainer.childNodes
+    let pages = []
+    for (let i = 0; i - 1 <= cards.length / 4; i++) {
+        let newPage = document.createElement("canvas")
+        newPage.width = 2550
+        newPage.height = 3300
+        newPage.className = "paper-canvas"
+        pageStack.appendChild(newPage)
+        pages.push(newPage)
+        const ctx = newPage.getContext("2d");
+        ctx.font = "70px sans-serif";
+        ctx.fillStyle = "#000";
+        ctx.fillText(i + 1, 2350, 3100);
+    }
+
+    cards.forEach((card, index) => {
+        setTimeout(function () {
+            html2canvas(card).then(canvas => {
+                let currentPage = pages[Math.floor(index / 4) + 1]
+                let x = 0
+                let y = 0
+                if (index % 4 === 1) {
+                    x = 1050
+                }
+                if (index % 4 === 2) {
+                    y = 1450
+                }
+                if (index % 4 === 3) {
+                    x = 1050
+                    y = 1450
+                }
+                canvas.data = {}
+                let ctx = currentPage.getContext("2d", { willReadFrequently: true });
+                ctx.drawImage(canvas, x + 50, y + 50)
+            });
+        }, index * (index < 10 ? 3000 : 750))
+        console.log(`Timeout set for ${(index < 10 ? 3000 : 750)}`)
+    })
+
+    let reportPage = pages[0]
+    let reportContext = reportPage.getContext("2d");
+    reportContext.font = "70px sans-serif";
+    reportContext.fillStyle = "#000";
+    let printY = 200
+    reportContext.fillText(`${cards.length} Resource Cards`, 100, printY);
+    printY += 100
+    
+    let validKeywords = []
+
+    for (const keyword in keywordCounter) {
+        if (keywordOrder[keyword]) {
+            validKeywords.push([keyword, keywordCounter[keyword]])
+        } else {
+            reportContext.fillText(`unrecognized keyword: "${keyword}" (${keywordCounter[keyword]})`, 100, printY);
+            printY += 100
+        }
+    }
+
+    validKeywords = validKeywords.sort((a, b) => {
+        return b[1] - a[1]
+    })
+    console.log("validKeywords:")
+    console.log(validKeywords)
+
+    printY += 100
+    reportContext.fillText(`Keyword frequency:`, 100, printY);
+    printY += 100
+    reportContext.fillText(`The most common keyword is ${validKeywords[0][0]}, appearing ${validKeywords[0][1]} times.`, 100, printY);
+    reportContext.fillText(`The most common keyword is ${validKeywords[0][0]}, appearing ${validKeywords[0][1]} times.`, 100, printY);
+    printY += 100
+    for (let i = 1; i < validKeywords.length - 1; i++) {
+        let quantity = validKeywords[i][1]
+        reportContext.fillText(`${validKeywords[i][0]} -- ${quantity} time${quantity === 1 ? "" : "s"},`, 100, printY);
+        printY += 100
+    }
+    let quantity = validKeywords[validKeywords.length - 1][1]
+    if (validKeywords[validKeywords.length - 1][1] !== validKeywords[validKeywords.length - 2][1]) {
+        reportContext.fillText(`The least common keyword is ${validKeywords[validKeywords.length - 1][0]}, appearing ${quantity} time${quantity === 1 ? "" : "s"}.`, 100, printY)
+    } else {
+        reportContext.fillText(`and ${validKeywords[validKeywords.length - 1][0]}, also ${quantity} time${quantity === 1 ? "" : "s"}.`, 100, printY);
+    }
+}
+
+previewPrompt.onclick = drawCardsToPaper

@@ -10,12 +10,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <input type="file" id="fileInput" name="filename">
-    <button id="fileSubmit">Submit</button>
+    <input class="big-button" type="file" id="fileInput" name="filename">
+    <button class="big-button" id="fileSubmit">Submit</button>
+    <div class="preview-prompt nondisplay" id="previewPrompt">
+        <div>Review the preview cards below and click the Create PDF button when you're ready.</div>
+        <button class="big-button">Create PDF?</button>
+    </div>
+    <div class="page-stack" id="pageStack"></div>
     <div class="card-preview-container" id="previewContainer"></div>
-    <!-- <div id="capture" style="padding: 10px; background: #f5da55">
-        <h4 style="color: #000; ">Hello world!</h4>
-    </div> -->
     <!-- <div class="card-container">
         <img class="card-picture" src="resource-card-pictures/crate.png" alt="">
         <div class="card-name">Arson Cocktail</div>

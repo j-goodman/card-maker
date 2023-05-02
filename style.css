@@ -2,12 +2,19 @@
 
 body {
     background-color: rgb(142, 183, 211);
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-size: 24px;
 }
 
 .card-preview-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+.big-button {
+    padding: 5px 15px 5px 15px;
+    font-size: 1.1em;
 }
 
 .card-container {
@@ -123,4 +130,9 @@ body {
 
 .nondisplay {
     display: none;
+}
+
+.paper-canvas {
+    background-color: #fff;
+    width: 60%;
 }
