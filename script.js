@@ -249,11 +249,11 @@ let drawCardsToPaper = () => {
                     y = 1450
                 }
                 canvas.data = {}
-                let ctx = currentPage.getContext("2d", { willReadFrequently: true });
+                let ctx = currentPage.getContext("2d", { willReadFrequently: true })
                 ctx.drawImage(canvas, x + 50, y + 50)
             });
-        }, index * (index > 50 ? 1000 * 7000))
-        console.log(`Timeout set for ` + index * (index > 50 ? 1000 * 7000))
+        }, index * (index > 50 ? 1000 : 7000))
+        console.log(`Timeout set for ` + index * (index > 50 ? 1000 : 7000))
     })
 
     let reportPage = pages[0]
